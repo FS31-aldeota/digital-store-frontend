@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -10,9 +9,6 @@ export default {
       fontFamily: {
         'sans': ["Inter"],
       },
-      backgroundImage: theme => ({
-        'custom-gradient': 'linear-gradient(to right, #B5B6F2, #EFEFFF)',
-      }),
       colors: {
         'dark-gray': '#1F1F1F',
         'dark-gray-2': '#474747',
@@ -34,4 +30,3 @@ export default {
   },
   plugins: [],
 }
-
