@@ -9,6 +9,7 @@ const OfertaEspecialContainer = styled.div`
         gap: 67px;
         align-items: center;
         justify-content: center;
+        margin-top: 40.34px;
     }
 
     & .imagem{

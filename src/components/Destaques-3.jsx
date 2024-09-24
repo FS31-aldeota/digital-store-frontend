@@ -163,6 +163,13 @@ const Highlights3WrapperContainer = styled.div`
           }
         }
       }
+    
+    & .skeletonProdutoEmAlta {
+      @media (min-width: 768px){
+        
+      }
+    }
+    
     }
   }
 `;
@@ -228,11 +235,12 @@ const Card = () => {
     </div>
   ) : (
     <>
-      <div className="bg-white rounded-2xl p-3">
-        <Skeleton height="321px" width="100%" className={estiloDoSkeleton}></Skeleton>
-        <Skeleton height="8px" width="40px" className={estiloDoSkeleton + " mt-4"}></Skeleton>
-        <Skeleton height="22px" className={estiloDoSkeleton + " mt-1"}></Skeleton>
-        <Skeleton height="15px" width="100px" className={estiloDoSkeleton + " mt-1"}></Skeleton>
+    {/* window.innerWidth */}
+      <div className="skeletonProdutoEmAlta bg-white rounded-2xl p-3">
+        <Skeleton height={window.innerWidth >= 768 ? "321px" : "179.19px"} width="100%" className={estiloDoSkeleton}></Skeleton>
+        <Skeleton height="8px" width="40px" className={estiloDoSkeleton + " mt-3"}></Skeleton>
+        <Skeleton height={window.innerWidth >= 768 ? "22px" : "15px"} className={estiloDoSkeleton + " mt-1"}></Skeleton>
+        <Skeleton height={window.innerWidth >= 768 ? "15px" : "10px"} width="100px" className={estiloDoSkeleton + " mt-1"}></Skeleton>
       </div>
     </>
   );
