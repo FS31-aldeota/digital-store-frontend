@@ -3,7 +3,11 @@ import "primeicons/primeicons.css";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { InputMask } from 'primereact/inputmask';
-import { data } from "autoprefixer";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import { useCreateUser } from "../hooks/usuarioHooks";
+import { useCreateAddress } from "../hooks/enderecosHooks";
+import { useNavigate } from "react-router-dom";
 
 
 const CadastroCompletoContainer = styled.div`
@@ -151,28 +155,69 @@ const CadastroCompletoContainer = styled.div`
 const CadastroCompleto = () => {
 
   const { register, handleSubmit, setValue } = useForm();
+  const { email } = useContext(AuthContext);
+  const { mutateAsync: create } = useCreateUser();
+  const { mutateAsync: createAddress } = useCreateAddress();
+  const navigate = useNavigate();
+
+  setValue('usuario_email', email);
+
   function carregarEndereco(cep) {
-    if (cep.length == 9) {
-      const cepTratado = cep.replace(/\D/g, '');
-      fetch(`http://viacep.com.br/ws/${cepTratado}/json/`)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setValue("endereco", data.logradouro);
-          setValue("bairro", data.bairro);
-          setValue("cidade", data.localidade);
-          setValue("uf", data.uf);
+    const cepTratado = cep.replace('-','');
+    fetch(`http://viacep.com.br/ws/${cepTratado}/json/`)
+      .then((res) => res.json())
+      .then((data) => {
+        setValue("endereco_cep", cepTratado);
+        setValue("endereco_rua", data.logradouro);
+        setValue("endereco_bairro", data.bairro);
+        setValue("endereco_cidade", data.localidade);
+        setValue("endereco_estado", data.uf);
+      });
+  }
 
+  const cadastroUsuario = (dados) => {
+    const { 
+      endereco_cep, 
+      endereco_rua, 
+      endereco_numero, 
+      endereco_complemento, 
+      endereco_bairro, 
+      endereco_cidade, 
+      endereco_estado 
+    } = dados;
+
+    const endereco = { 
+      endereco_cep, 
+      endereco_rua, 
+      endereco_numero, 
+      endereco_complemento, 
+      endereco_bairro, 
+      endereco_cidade, 
+      endereco_estado 
+    };
+
+    dados.usuario_senha = dados.usuario_cpf.replaceAll('.','').replaceAll('-','');
+
+    create(dados, {
+      onSuccess: (response) => {
+        endereco.usuario_id = response.usuario_id
+        createAddress(endereco, {
+          onSuccess: () => {
+            alert(response.detail);
+            navigate('/login')
+          }
         });
-
-    }
-
+      },
+      onError: (error) => {
+        console.log(error.message);
+      },
+    })
   }
 
   return (
     <CadastroCompletoContainer>
 
-      <form>
+      <form onSubmit={handleSubmit(cadastroUsuario)}>
         <h2 className="form-criar">Criar Conta</h2>
         <section className="informacoesPessoais">
           <h4>Informações Pessoais</h4>
@@ -182,6 +227,7 @@ const CadastroCompleto = () => {
             type="text"
             placeholder="Insira seu nome"
             className="mb-3"
+            {...register('usuario_nome')}
             required
           />
 
@@ -191,6 +237,7 @@ const CadastroCompleto = () => {
             mask="999.999.999-99"
             placeholder="Insira seu CPF"
             className="mb-3"
+            {...register('usuario_cpf')}
             required
           />
 
@@ -202,16 +249,27 @@ const CadastroCompleto = () => {
             placeholder="Insira seu e-mail"
             className="mb-3"
             required
+            {...register('usuario_email')}
           />
 
           <label htmlFor="celular">Celular *</label>
-          <InputMask id="celular" mask="(99) 99999-9999" placeholder="Insira seu celular" required />
+          <InputMask 
+            id="celular" 
+            mask="(99) 99999-9999" 
+            placeholder="Insira seu celular" 
+            {...register('usuario_celular')}
+            required 
+          />
         </section>
         <section className="informacoesDeEntrega">
           <h4>Informações de Entrega</h4>
           <label htmlFor="cep">CEP *</label>
           <InputMask id="cep" mask="99999-999" placeholder="Insira seu cep"
-            onChange={(e) => carregarEndereco(e.target.value)}
+            onChange={(e) => {
+              if (!e.target.value.includes('_') && e.target.value != '') {
+                carregarEndereco(e.target.value);
+              }
+            }}
             className="mb-3"
             required />
 
@@ -220,7 +278,7 @@ const CadastroCompleto = () => {
             id="endereco"
             type="text"
             placeholder="Insira seu endereço"
-            {...register("endereco")}
+            {...register("endereco_rua")}
             className="mb-3"
             required
           />
@@ -231,6 +289,7 @@ const CadastroCompleto = () => {
             name=""
             id="numero"
             placeholder="Insira seu número"
+            {...register('endereco_numero')}
             className="mb-3"
           />
 
@@ -241,6 +300,7 @@ const CadastroCompleto = () => {
             id="complemento"
             className="mb-3"
             placeholder="Insira complemento"
+            {...register('endereco_complemento')}
           />
 
 
@@ -251,7 +311,7 @@ const CadastroCompleto = () => {
             id="bairro"
             placeholder="Insira seu bairro"
             className="mb-3"
-            {...register("bairro")}
+            {...register("endereco_bairro")}
             required
           />
 
@@ -262,7 +322,7 @@ const CadastroCompleto = () => {
             id="cidade"
             placeholder="Insira sua cidade"
             className="mb-3"
-            {...register("cidade")} required
+            {...register("endereco_cidade")} required
           />
           <label htmlFor="uf">Estado *</label>
           <input
@@ -271,7 +331,7 @@ const CadastroCompleto = () => {
             id="uf"
             placeholder="Insira seu estado"
             className="mb-3"
-            {...register("uf")} required
+            {...register("endereco_estado")} required
           />
         </section>
         <section className="confirmacao">

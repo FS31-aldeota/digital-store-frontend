@@ -19,6 +19,12 @@ const HeaderDashboard = () => {
                     <li>
                         <NavLink className={'text-black'} to={'/dashboard/marcas'}>Marcas</NavLink>
                     </li>
+                    <li>
+                        <NavLink className={'text-black'} to={'/dashboard/banners'}>Banners</NavLink>
+                    </li>
+                    <li>
+                        <NavLink className={'text-black'} to={'/dashboard/categorias'}>Categorias</NavLink>
+                    </li>
                 </ul>
             </nav>
         </HeaderDashboardContainer>

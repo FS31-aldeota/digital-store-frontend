@@ -4,21 +4,33 @@ import Sapatoo from "../assets/Sapato_esquerdo.svg";
 import Gmail from "../assets/gmail.svg";
 import Facebook from "../assets/Face.svg";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import HeaderLogin from "./HeaderLogin";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import { useLoginUser } from "../hooks/usuarioHooks";
 
 
 const Login = () => {
-  const {
-    register,
-    handleSubmit,
-  } = useForm();
+  const { register, handleSubmit } = useForm();
+  const { setUsuario } = useContext(AuthContext);
+  const { mutateAsync: login} = useLoginUser();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:3000/login", data);
-      console.log("Deu bom", response.data);
+      login(data, {
+        onSuccess: (usuarioLogado) => {
+          console.log(usuarioLogado);
+          if(usuarioLogado.status){
+            alert(usuarioLogado.detail);
+            return;
+          }
+          setUsuario(usuarioLogado);
+          sessionStorage.setItem('usuario', JSON.stringify(usuarioLogado));
+          navigate('/');
+        }
+      })
     } catch (error) {
       console.error("Deu ruim", error);
     }
@@ -41,19 +53,19 @@ const Login = () => {
               <div className="flex flex-col gap-2">
                 <label className="text-sm text-black font-bold">Login *</label>
                 <input
-                  className="bg-zinc-50 h-12 rounded-sm placeholder:text-gray-400 placeholder:text-sm text-sm placeholder: p-3"
+                  className="bg-zinc-50 h-12 text-black rounded-sm placeholder:text-gray-400 placeholder:text-sm text-sm placeholder: p-3"
                   type="email"
                   placeholder="Insira seu login ou email"
-                  {...register("email", { required: true })}
+                  {...register("usuario_email", { required: true })}
                 />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-sm text-black font-bold">Senha *</label>
                 <input
-                  className="bg-zinc-50 h-12 rounded-sm placeholder:text-gray-400 placeholder:text-sm text-sm placeholder: p-3"
+                  className="bg-zinc-50 h-12 text-black rounded-sm placeholder:text-gray-400 placeholder:text-sm text-sm placeholder: p-3"
                   type="password"
                   placeholder="Insira sua senha"
-                  {...register("password", { required: true })}
+                  {...register("usuario_senha", { required: true })}
                 />
               </div>
               <span className="text-sm text-zinc-800 py-6">

@@ -1,16 +1,21 @@
 import { InputText } from "primereact/inputtext";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import validator from "validator";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Cadastro = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
-    
+  const { setEmail } = useContext(AuthContext)
+
   const onSubmit = (data) => {
-    if(data) {
+    if (data) {
+      setEmail(data.email);
       navigate("/cadastro-completo")
-  }};
+    }
+  };
 
   return (
     <main className="flex items-center justify-center w-full bg-gradient-to-b from-secondary-1 to-secondary-2 ">
@@ -29,7 +34,7 @@ const Cadastro = () => {
             </p>
           </header>
           <form className="flex flex-col w-full mb-2"
-                onSubmit={handleSubmit(onSubmit)}>
+            onSubmit={handleSubmit(onSubmit)}>
             <label
               className="text-xs font-bold tracking-wider leading-6 mb-1 text-dark-gray-2"
               htmlFor="email"
@@ -41,11 +46,11 @@ const Cadastro = () => {
                 type="text"
                 placeholder="Insira seu email"
                 autoComplete="email"
-                { ...register("email", {required: true, validate: (value) => validator.isEmail(value)})}
+                {...register("email", { required: true, validate: (value) => validator.isEmail(value) })}
               />
-              { errors?.email?.type === 'required' && <p className="mt-1 text-sm text-red">O email é obrigatório.</p>
+              {errors?.email?.type === 'required' && <p className="mt-1 text-sm text-red">O email é obrigatório.</p>
               }
-              { errors?.email?.type === 'validate' && <p className="mt-1 text-sm text-red">O email é inválido.</p>
+              {errors?.email?.type === 'validate' && <p className="mt-1 text-sm text-red">O email é inválido.</p>
               }
             </div>
             <div>

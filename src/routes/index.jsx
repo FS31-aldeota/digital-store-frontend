@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import PageLayout from "../layouts/PageLayout";
 import Home from "../pages/Home";
 import Login from "../components/Login";
@@ -19,6 +19,10 @@ import FinalizarCompra from "../pages/FinalizarCompra.jsx";
 import MeuCarrinho from "../components/MeuCarrinho.jsx";
 import Produto from "../components/Produto";
 import NotFound from "../pages/NotFound.jsx";
+import DashboardBanners from "../pages/DashboardBanners";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import DashboardCategorias from "../pages/DashboardCategorias";
 
 export const Paths = () => {
     return (
@@ -35,15 +39,18 @@ export const Paths = () => {
                         <Route path="/meu-perfil/minhas-informacoes" element={<MinhasInformacoes />} />
                         <Route path="/meu-perfil/metodos-de-pagamentos" element={<MetodosPagamentos />} />
                     </Route>
+
                     <Route path="/produtos" element={<Produtos />} />
                     <Route path="/produto" element={<Produto />}/>
                     <Route path="/categorias" element={<Categorias />} />
                     <Route path="/meus-pedidos" element={<MeusPedidos />} />
                     <Route path="/finalizar-compra" element={<FinalizarCompra />} />
                 </Route>
-                <Route path="/dashboard" element={<DashboardLayout />}>
+                <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
                     <Route index element={<Dashboard />} />
                     <Route path="/dashboard/marcas" element={<DashboardMarcas />} />
+                    <Route path="/dashboard/banners" element={<DashboardBanners />} />
+                    <Route path="/dashboard/categorias" element={<DashboardCategorias />} />
                 </Route>
                 <Route path="/login" element={<Login/>} />
                 <Route path="/cadastro-completo" element={<CadastroCompleto/>} />
@@ -52,4 +59,9 @@ export const Paths = () => {
             </Routes>
         </BrowserRouter>
     );
+}
+
+const ProtectedRoute = ({ children}) => {
+    const { usuario } = useContext(AuthContext);
+    return usuario ? children : <Navigate to={'/'} />;
 }

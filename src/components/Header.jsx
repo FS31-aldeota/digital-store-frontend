@@ -1,21 +1,10 @@
-
-
-
-
-
-
-
-
-
-
-
 import styled from "styled-components";
 import { default as But } from '../components/buttons/Buttons.jsx';
 import { Link, NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext/index.jsx";
 
 const HeaderContainer = styled.header`
-
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -612,20 +601,29 @@ const DigitalLogo = () => {
 }
 
 const Usuario = () => {
+    const { usuario } = useContext(AuthContext);
     return (
         <>
-            <div className="cadastre">
-                <Link className="text-small" to="/cadastro" >Cadastre-se</Link>
-            </div>
-            <div className="login">
-                <Link to="/login" >
-                    <But
-                        className={"text-extra-small bold"}
-                        buttonType="primary-button"
-                        label={"Entrar"}
-                    />
-                </Link>
-            </div>
+            {
+                usuario ? (
+                    <div className="text-black">{usuario.usuario_nome}</div>
+                ) : (
+                    <>
+                        <div className="cadastre">
+                            <Link className="text-small" to="/cadastro" >Cadastre-se</Link>
+                        </div>
+                        <div className="login">
+                            <Link to="/login" >
+                                <But
+                                    className={"text-extra-small bold"}
+                                    buttonType="primary-button"
+                                    label={"Entrar"}
+                                />
+                            </Link>
+                        </div>
+                    </>
+                )
+            }
         </>
     )
 }

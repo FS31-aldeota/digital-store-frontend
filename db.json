@@ -1,13 +1,85 @@
 {
   "produtos": [
-    { "id": 1, "nome": "Tênis", "marca": "Aliodas", "preco": 199.99, "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg", "genero": "m"},
-    { "id": 2, "nome": "Sapato", "marca": "Galenciaga", "preco": 299.99, "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg", "genero": "m" },
-    { "id": 3, "nome": "Vestimenta de pé", "marca": "Kike", "preco": 149.99, "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg", "genero": "F" },
-    { "id": 4, "nome": "Tênis", "marca": "K-Swiss", "preco": 179.99, "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg", "genero": "F" },
-    { "id": 5, "nome": "Tênis", "marca": "K-Swiss", "preco": 179.99, "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg", "genero": "F" },
-    { "id": 6, "nome": "Tênis", "marca": "K-Swiss", "preco": 179.99, "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg", "genero": "F" },
-    { "id": 7, "nome": "Tênis", "marca": "K-Swiss", "preco": 179.99, "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg", "genero": "F" },
-    { "id": 8, "nome": "Tênis", "marca": "K-Swiss", "preco": 179.99, "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg", "genero": "F" },
-    { "id": 9, "nome": "Tênis", "marca": "K-Swiss", "preco": 179.99, "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg", "genero": "F" }
+    {
+      "id": 1,
+      "nome": "Tênis",
+      "marca": "Nike",
+      "categoria": "Casual",
+      "preco": 199.99,
+      "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg",
+      "genero": "m"
+    },
+    {
+      "id": 2,
+      "nome": "Sapato",
+      "marca": "Kichute",
+      "categoria": "Casual",
+      "preco": 299.99,
+      "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg",
+      "genero": "m"
+    },
+    {
+      "id": 3,
+      "nome": "Vestimenta de pé",
+      "marca": "Nike",
+      "categoria": "Utilitário",
+      "preco": 149.99,
+      "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg",
+      "genero": "F"
+    },
+    {
+      "id": 4,
+      "nome": "Tênis",
+      "marca": "Vivara",
+      "categoria": "Utilitário",
+      "preco": 179.99,
+      "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg",
+      "genero": "F"
+    },
+    {
+      "id": 5,
+      "nome": "Tênis",
+      "marca": "Vivara",
+      "categoria": "Corrida",
+      "preco": 179.99,
+      "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg",
+      "genero": "F"
+    },
+    {
+      "id": 6,
+      "nome": "Tênis",
+      "marca": "Puma",
+      "categoria": "Corrida",
+      "preco": 179.99,
+      "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg",
+      "genero": "F"
+    },
+    {
+      "id": 7,
+      "nome": "Tênis",
+      "marca": "Nike",
+      "categoria": "Corrida",
+      "preco": 179.99,
+      "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg",
+      "genero": "F"
+    },
+    {
+      "id": 8,
+      "nome": "Tênis",
+      "marca": "Nike",
+      "categoria": "Esporte e lazer",
+      "preco": 179.99,
+      "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg",
+      "genero": "F"
+    },
+    {
+      "id": 9,
+      "nome": "Tênis",
+      "marca": "Puma",
+      "categoria": "Esporte e lazer",
+      "preco": 179.99,
+      "img": "https://cdnv2.moovin.com.br/terranovacalcados/imagens/produtos/det/tenis-olympikus-mega128-76672f3c5f699c69761ac09622dd8596.jpeg",
+      "genero": "F"
+    }
   ]
 }

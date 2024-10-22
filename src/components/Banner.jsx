@@ -1,19 +1,9 @@
-
-
-
-
-
-
-
-
-
-
-
-
 import PropTypes from "prop-types"
 import styled from "styled-components";
 import { default as But } from "./buttons/Buttons.jsx";
 import { useEffect, useRef, useState } from "react";
+import { useGetBanners } from "../hooks/bannerHooks.js";
+import { Link } from "react-router-dom";
 
 const BannersBigWraperContainer = styled.div`
     overflow: hidden;
@@ -182,15 +172,16 @@ const Banner1Container = styled.div`
 const Banner = (props) => {
 
     return (
-        <Banner1Container id={props.id}>
+        <Banner1Container id={props.banner_id}>
             <div className="propag">
-                <h4 className="text-small bold">Melhores ofertas personalizadas</h4>
-                <h2>Queima de stoque Nike 🔥</h2>
+                <h4 className="text-small bold">{props.banner_subtitulo}</h4>
+                <h2>{props.banner_titulo}</h2>
                 <p className={window.innerWidth <= 768 ? "text-extra-small" : "text-medium"}>{props.textinho}</p>
-                <But buttonType="primary-button" label="Clique Aqui" className={"text-small bold"} />
+                <Link to={props.banner_link} target="_blank">
+                    <But buttonType="primary-button" label="Clique Aqui" className={"text-small bold"} />
+                </Link>
             </div>
-            <img className="sapato" src="White-Sneakers.svg" />
-            {/* <img className="pirilampos" src="Ornament 11.svg" /> */}
+            <img className="sapato" src={`https://digital-store-backend-c4an.onrender.com/files/${props.banner_imagem}`} />
         </Banner1Container>
     );
 }
@@ -204,6 +195,8 @@ const Banners = () => {
     const [activeBannerIndex, setActiveBannerIndex] = useState(0);
     const bannersWrapperRef = useRef(null);
     const intervalRef = useRef(null);
+
+    const { data: banners, isFetched } = useGetBanners();
 
     // Handle click on banner. This function is triggered when a user clicks on a banner.
     const handleBannerClick = (index) => {
@@ -243,21 +236,22 @@ const Banners = () => {
             behavior: 'auto',
         });
     }, [activeBannerIndex]);
-    
+
     return (
         <BannersBigWraperContainer>
 
             <div className="banners-wrapper" ref={bannersWrapperRef}>
-                <Banner id="banner1" textinho="bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb Lorem ipsum, dolor sit amet consectetur adipisicing elit." />
-                <Banner id="banner2" textinho="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Lorem ipsum, dolor sit amet consectetur adipisicing elit." />
-                <Banner id="banner3" />
-                <Banner id="banner4" />
+                {
+                    isFetched && banners.map(banner => (
+                        <Banner {...banner} />
+                    ))
+                }
             </div>
 
             <ul className="banners-links">
-            {[1, 2, 3, 4].map((index) => (
-                <li key={index} onClick={() => {handleBannerClick(index - 1)}} className={index === activeBannerIndex + 1 ? 'active' : ''} />
-            ))}
+                {isFetched && banners.map((index) => (
+                    <li key={index} onClick={() => { handleBannerClick(index - 1) }} className={index === activeBannerIndex + 1 ? 'active' : ''} />
+                ))}
             </ul>
 
         </BannersBigWraperContainer>
