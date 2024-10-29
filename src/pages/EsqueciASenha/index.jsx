@@ -1,8 +1,8 @@
-import "../index.css";
-import Sapato from "../assets/Sapato_direito.svg";
-import Sapatoo from "../assets/Sapato_esquerdo.svg";
-import Gmail from "../assets/gmail.svg";
-import Facebook from "../assets/Face.svg";
+import "../../index.css";
+import Sapato from "../../assets/Sapato_direito.svg";
+import Sapatoo from "../../assets/Sapato_esquerdo.svg";
+import Gmail from "../../assets/gmail.svg";
+import Facebook from "../../assets/Face.svg";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 

@@ -2,7 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import PageLayout from "../layouts/PageLayout";
 import Home from "../pages/Home";
 import Login from "../components/Login";
-import RecuperarSenha from "../EsqueciASenha";
+import RecuperarSenha from "../pages/EsqueciASenha";
 import Cadastro from "../pages/Cadastro";
 import Produtos from "../components/Produtos";
 import CadastroCompleto from "../pages/CadastroCompleto";
@@ -23,6 +23,7 @@ import DashboardBanners from "../pages/DashboardBanners";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import DashboardCategorias from "../pages/DashboardCategorias";
+import DashboardProdutos from "../pages/DashboardProdutos";
 
 export const Paths = () => {
     return (
@@ -51,6 +52,7 @@ export const Paths = () => {
                     <Route path="/dashboard/marcas" element={<DashboardMarcas />} />
                     <Route path="/dashboard/banners" element={<DashboardBanners />} />
                     <Route path="/dashboard/categorias" element={<DashboardCategorias />} />
+                    <Route path="/dashboard/produtos" element={<DashboardProdutos />} />
                 </Route>
                 <Route path="/login" element={<Login/>} />
                 <Route path="/cadastro-completo" element={<CadastroCompleto/>} />

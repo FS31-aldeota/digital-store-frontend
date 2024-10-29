@@ -8,8 +8,8 @@ const HeaderDashboardContainer = styled.header`
 const HeaderDashboard = () => {
     return (
         <HeaderDashboardContainer className="w-2 h-full bg-white">
-            <nav>
-                <ul>
+            <nav className={'p-4'}>
+                <ul className={'flex flex-col gap-3'}>
                     <li>
                         <NavLink className={'text-black'} to={'/dashboard'}>Dashboard</NavLink>
                     </li>
@@ -24,6 +24,9 @@ const HeaderDashboard = () => {
                     </li>
                     <li>
                         <NavLink className={'text-black'} to={'/dashboard/categorias'}>Categorias</NavLink>
+                    </li>
+                    <li>
+                        <NavLink className={'text-black'} to={'/dashboard/produtos'}>Produtos</NavLink>
                     </li>
                 </ul>
             </nav>

@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import Filtro from "../assets/Filtro.svg";
 import SairMenu from "../assets/SairMenuLateral.svg";
-import axios from "axios";
 import { useGetMarcas } from "../hooks/marcaHooks";
 import { useGetCategorias } from "../hooks/categoriaHooks";
+import { API } from "../services";
+import { useGetProdutos } from "../hooks/produtoHooks";
 
 const Produtos = () => {
   const [mostrarMenu, setMostrarMenu] = useState(false);
   const [filtros, setFiltros] = useState([]);
-  const [produtos, setProdutos] = useState([]);
+  // const [produtos, setProdutos] = useState([]);
   const [produtosFiltrados, setProdutosFiltrados] = useState([]);
+  const { data: produtos, isFetched: isFetchedProdutos } = useGetProdutos();
   const { data: marcas, isFetched: isFetchedMarcas } = useGetMarcas();
   const { data: categorias, isFetched: isFetchedCategorias } = useGetCategorias();
-  let totalProduto = produtos.length;
+  let totalProduto = isFetchedProdutos ? produtos.length : 0;
 
   const handleMenuClick = () => {
     setMostrarMenu(!mostrarMenu);
@@ -122,11 +124,6 @@ const Produtos = () => {
     );
   };
 
-  const buscarProdutos = async () => {
-    const response = await axios.get("http://localhost:3000/produtos");
-    setProdutos(response.data);
-  };
-
   const filtrosSelecionados = (opcao) => {
     if(filtros.includes(opcao)){
       setFiltros([...filtros.filter(item => item != opcao)]);
@@ -136,8 +133,10 @@ const Produtos = () => {
   }
 
   const filtrarProdutos = () => {
+    if(!isFetchedProdutos){
+      return
+    }
     if(filtros.length == 0){
-      console.log("teste", produtos);
       setProdutosFiltrados([...produtos]);
     } else {
       setProdutosFiltrados([...produtos.filter(produto => filtros.includes(produto.marca) && filtros.includes(produto.categoria))]);
@@ -145,16 +144,12 @@ const Produtos = () => {
   }
 
   useEffect(() => {
-    buscarProdutos();
     filtrarProdutos();
   }, []);
 
   useEffect(() => {
     filtrarProdutos();
-  }, [filtros, isFetchedMarcas]);
-
-  console.log("Filtros: ", filtros);
-  console.log("Produtos: ", produtosFiltrados);
+  }, [filtros, isFetchedMarcas, produtos]);
 
   return (
     <div className="bg-light-gray-3 flex flex-wrap p-4">
@@ -164,9 +159,9 @@ const Produtos = () => {
           <select
             className="w-[600px] md:w-[300px] md:mr-8 h-14 rounded-sm border border-gray-600 "
             name="Ordernar por: "
-            id=""
+            defaultValue={'#'}
           >
-            <option value={"#"} disabled selected>
+            <option value={"#"}>
               Ordernar por
             </option>
             <option value={1}>mais relevante</option>
@@ -197,11 +192,11 @@ const Produtos = () => {
           <div className="flex flex-col p-10 gap-12">
             <div className="flex flex-col gap-4">
               <label className="font-bold text-xl text-dark-gray-2">
-                Marka
+                Marca
               </label>
               {
-                isFetchedMarcas && marcas.map(marca => (
-                  <div key={`m${marca.marca_id}`} className="flex items-center gap-[10px]">
+                isFetchedMarcas && marcas.map((marca, index) => (
+                  <div key={`m${index}`} className="flex items-center gap-[10px]">
                     <input
                       className="w-[20px] h-[20px] appearance-none border-2 border-gray-400 rounded-sm checked:bg-pink-500 checked:border-pink-500 checked:flex checked:items-center checked:justify-center checked:after:content-['✔'] checked:after:text-white checked:after:text-sm checked:after:leading-none"
                       type="checkbox"
@@ -260,7 +255,7 @@ const Produtos = () => {
 
             <div className="flex flex-col gap-4">
               <label className="font-bold text-xl text-dark-gray-2">
-                Genero
+                Estado
               </label>
               <div className="flex items-center gap-4">
                 <input className="w-[20px] h-[20px]" type="radio" name="estado" />
@@ -275,13 +270,13 @@ const Produtos = () => {
         </div>
         {/* Produtos */}
         <div className="flex-1 grid grid-cols-2 md:flex md:grid-cols-3 gap-3">
-          {produtos.map((produto) => (
-            <div key={`p${produto.id}`} className="mb-[40px]">
+          {produtosFiltrados.map((produto, index) => (
+            <div key={`p${index}`} className="mb-[40px]">
               <div className="w-44 h-44 md:w-[300px] md:h-[300px] bg-white flex items-center mb-2 ">
                 <img className=" w-full h-full cursor-pointer" onClick={() => console.log("rota porduto")} src={produto.img} alt="" />
               </div>
               <h6 className="text-sm font-bold text-light-gray" >{produto.nome}</h6>
-              <p className="text-sm md:text-xl text-dark-gray-2 cursor-pointer" onClick={() => console.log("rota porduto")}>{produto.marca} - Masculino</p>
+              <p className="text-sm md:text-xl text-dark-gray-2 cursor-pointer" onClick={() => console.log("rota porduto")}>{produto.marca ? produto.marca.marca_nome : '---'} - Masculino</p>
               <div>{`R$ ${produto.preco}`}</div>
             </div>
           ))}
